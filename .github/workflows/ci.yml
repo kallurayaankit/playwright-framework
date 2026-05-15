@@ -4,15 +4,15 @@ on:
   push:
     branches: [ main ]
   schedule:
-    - cron: '0 8 * * *'   # daily at 8am UTC
+    - cron: '0 8 * * *'
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4          # <-- Updated
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5       # <-- Updated
         with:
           python-version: '3.11'
       - name: Install dependencies
@@ -24,7 +24,7 @@ jobs:
         run: pytest -n auto --html=reports/report.html --self-contained-html
       - name: Upload test report
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4    # <-- Updated
         with:
           name: test-report
           path: reports/report.html
