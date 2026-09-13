@@ -1,5 +1,6 @@
 import pytest
 import json
+from playwright.sync_api import expect
 from pages.login_page import LoginPage
 from pages.inventory_page import InventoryPage
 from pages.cart_page import CartPage
@@ -23,4 +24,5 @@ def test_add_to_cart(logged_in_page, product):
     inventory.add_product_to_cart(product)
     inventory.go_to_cart()
     cart = CartPage(page)
-    assert cart.cart_items.filter(has_text=product).count() == 1
+    # Use expect() instead of count() — it auto-waits for the condition
+    expect(cart.cart_items.filter(has_text=product)).to_have_count(1)
